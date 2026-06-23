@@ -1,4 +1,4 @@
-name: Stats-Service CI
+name: Workspace-Service CI
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Maven Build ausführen (inklusive Tests)
+      - name: Maven Build ausführen
         run: |
-          cd stats-service
+          cd workspace-service
           mvn clean package
