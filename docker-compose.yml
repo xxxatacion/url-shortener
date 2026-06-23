@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # DATENBANKEN (3 komplett getrennte Container)
+  # ==========================================
+  mysql-workspace:
+    image: mysql:8.0
+    container_name: mysql-workspace
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: workspace_db
+    ports:
+      - "33061:3306"
+    networks:
+      - shortener-net
+
+  mysql-shortener:
+    image: mysql:8.0
+    container_name: mysql-shortener
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shortener_db
+    ports:
+      - "33062:3306"
+    networks:
+      - shortener-net
+
+  mysql-stats:
+    image: mysql:8.0
+    container_name: mysql-stats
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stats_db
+    ports:
+      - "33063:3306"
+    networks:
+      - shortener-net
+
+  # ==========================================
+  # MICROSERVICES
+  # ==========================================
+  workspace-service:
+    build: ./workspace-service
+    container_name: workspace-service
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVER_PORT=8081 # Zwingt Spring Boot auf diesen Port!
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=jdbc:mysql://mysql-workspace:3306/workspace_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      - DB_USER=root
+      - DB_PASS=root
+    depends_on:
+      - mysql-workspace
+    networks:
+      - shortener-net
+
+  stats-service:
+    build: ./stats-service
+    container_name: stats-service
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVER_PORT=8082
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=jdbc:mysql://mysql-stats:3306/stats_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      - DB_USER=root
+      - DB_PASS=root
+    depends_on:
+      - mysql-stats
+    networks:
+      - shortener-net
+
+  shortener-service:
+    build: ./shortener-service
+    container_name: shortener-service
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=jdbc:mysql://mysql-shortener:3306/shortener_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      - DB_USER=root
+      - DB_PASS=root
+      # Interne Kommunikation über Container-Namen:
+      - WORKSPACE_API_URL=http://workspace-service:8081/api/tokens/
+      - STATS_API_URL=http://stats-service:8082/api/stats/
+    depends_on:
+      - mysql-shortener
+      - workspace-service
+      - stats-service
+    networks:
+      - shortener-net
+
+  client-service:
+    build: ./client
+    container_name: client-service
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      - SERVER_PORT=8083
+      - SPRING_PROFILES_ACTIVE=prod
+
+      # Frontend/Thymeleaf Link (Der User-Browser muss localhost aufrufen):
+      - SHORTENER_API_URL=http://localhost:8080/api/shortLinks/
+      # Backend-Kommunikation (RestTemplate nutzt Container-Namen):
+      - SHORTENER_INTERNAL_URL=http://shortener-service:8080/api/shortLinks
+      - WORKSPACE_API_URL=http://workspace-service:8081/api/tokens
+      - STATS_API_URL=http://stats-service:8082/api/stats
+    depends_on:
+      - shortener-service
+    networks:
+      - shortener-net
+
+# ==========================================
+# NETZWERK DEFINITION
+# ==========================================
+networks:
+  shortener-net:
+    driver: bridge

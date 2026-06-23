@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <style>
+        /*
+        TODO: Sind nur Listenelemente; selbst anpassen!
+         */
+        .link-container { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; cursor: pointer; border-radius: 5px; }
+        .link-container:hover { background-color: #f9f9f9; }
+        .row-top { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; }
+        .row-bottom { font-size: 0.9em; color: gray; }
+    </style>
+</head>
+<body>
+<header>
+    <form th:action="@{/}" method="get">
+        <button type="submit">Startseite</button>
+    </form>
+</header>
+
+<main>
+    <h3>Dashboard</h3>
+
+    <div id="listen-container">
+
+        <div class="link-container"
+             th:each="item : ${Dashboard.statsShortUrls}"
+             th:onclick="selectedListObject([[${item}]])">
+
+            <div class="row-top">
+                <div>Short-URL: <span th:text="${baseUrl} + ${item.shortLinkDTO.shortUrl}"></span></div>
+
+                <div>Gesamtaufrufe: <span th:text="${#lists.size(item.statsDTOS)}"></span></div>
+            </div>
+
+            <div class="row-bottom">
+                Original-URL: <span th:text="${item.shortLinkDTO.originalUrl}"></span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="diagramm-bereich" style="display: none; max-width: 800px;">
+        <h4 id="diagramm-titel">Statistik</h4>
+
+        <button id="zeitraum-btn" onclick="toggleZeitraum()">Zeige letzte 30 Tage</button>
+
+        <canvas id="klickDiagramm"></canvas>
+    </div>
+</main>
+
+<script>
+
+    let currentListObject = null;
+    let currentPeriod = 7;
+    let diagram = null;
+
+    function selectedListObject(itemDaten) {
+        currentListObject = itemDaten;
+        currentPeriod = 7;
+
+        document.getElementById('diagramm-bereich').style.display = 'block';
+        document.getElementById('diagramm-titel').innerText = "Klicks für: " + itemDaten.shortLinkDTO.shortUrl;
+        document.getElementById('zeitraum-btn').innerText = "Zeige letzte 30 Tage";
+
+        drawDiagram();
+    }
+
+    function toggleZeitraum() {
+        if (currentPeriod === 7) {
+            currentPeriod = 30;
+            document.getElementById('zeitraum-btn').innerText = "Zeige letzte 7 Tage";
+        } else {
+            currentPeriod = 7;
+            document.getElementById('zeitraum-btn').innerText = "Zeige letzte 30 Tage";
+        }
+        drawDiagram();
+    }
+
+    function drawDiagram() {
+        if (!currentListObject) return;
+
+        const stats = currentListObject.statsDTOS;
+
+
+        const dataAfterDay = {};
+        for (let i = currentPeriod - 1; i >= 0; i--) {
+            let d = new Date();
+            d.setDate(d.getDate() - i);
+            let datumString = d.toISOString().split('T')[0];
+            dataAfterDay[datumString] = 0;
+        }
+
+        const limitDate = new Date();
+        limitDate.setDate(limitDate.getDate() - currentPeriod);
+
+        stats.forEach(stat => {
+            let clickDate = new Date(stat.timestamp);
+            if (clickDate >= limitDate) {
+                let dateString = clickDate.toISOString().split('T')[0];
+                if (dataAfterDay[dateString] !== undefined) {
+                    dataAfterDay[dateString]++;
+                }
+            }
+        });
+
+        const labels = Object.keys(dataAfterDay);
+        const daten = Object.values(dataAfterDay);
+
+        if (diagram) {
+            diagram.destroy();
+        }
+
+        // 4. Diagramm zeichnen!
+        const ctx = document.getElementById('klickDiagramm').getContext('2d');
+        diagram = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Klicks',
+                    data: daten,
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+body{
+
+}
+
+
+
+header div > p{
+    margin: 0;
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+header div > div{
+    height: 20px;
+}
+
+
+main{
+    height: 90%;
+    padding-top: 10%;
+
+
+}
+
+main > h1{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    font-size: 100px;
+}
+
+main > div {
+    justify-items: center;
+}
+
+main > div > div{
+    justify-items: center;
+}
+
+main > div > div > form{
+    width: 120vh;
+    height: 40vh;
+    background-color: white;
+    padding: 10px;
+    border-radius: 20px;
+
+}
+
+main > div > div > form > p{
+    color: #1e1c1c;
+}
+
+main > div > div > form > div{
+    background-color:rgba(77, 115, 252, 0.1);
+    <!--border-radius: 10px;-->
+}
+
+main > div > div > form > div > input{
+    width: 50%;
+    height: 25px;
+    border-radius: 25px;
+    border: 1px solid #e5e5e7;
+    background-color: white;
+}
+
+#abcd{
+    color: #757575;
+}

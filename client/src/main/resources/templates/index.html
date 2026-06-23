@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" href="../static/style/general.css">
+    <link rel="stylesheet" href="../static/style/index.css">
+
+    <link rel="stylesheet" th:href="@{/style/general.css}">
+    <link rel="stylesheet" th:href="@{/style/index.css}">
+
+
+</head>
+<body>
+<header>
+    <div>
+        <p>Gehe zu Dashboard</p>
+        <form th:action="@{/dashboard}" method="post">
+            <input type="text" name="token" required placeholder="Workspace-Token">
+            <button type="submit">Dashboard</button>
+        </form>
+        <div>
+            <p th:if="${dashboardTokenError}" th:text="${dashboardTokenError}" style="color: #ff0000;"></p>
+        </div>
+    </div>
+
+
+    <div>
+        <p>Generiere Workspace-Token</p>
+        <form th:action="@{/getNewToken}" method="post">
+            <div>
+                <p th:if="${newToken}" th:text="'Dein Token: ' + ${newToken}"></p>
+            </div>
+            <button type="submit">Generieren</button>
+        </form>
+        <div>
+            <p th:if="${generateTokenSuccess}" th:text="${generateTokenSuccess}" style="color: #09cb09;"></p>
+            <p th:unless="${generateTokenSuccess}" th:text="${generateTokenFailure}" style="color: #ff0000"></p>
+        </div>
+    </div>
+
+    <div>
+        Info
+        <!-- TODO: Info button für WS-Token->TextContainer, sowie <p> tag.. -->
+    </div>
+</header>
+
+<main>
+    <h1>URL-Shortener</h1>
+    <div>
+        <div>
+            <h1 style="font-size: 40px; margin-bottom: 40px; margin-top: 10px">Generiere Deine Short-URL</h1>
+
+            <form th:action="@{/generateLink}" method="post">
+                <p style="margin-bottom: 0">Originale URL eingeben</p>
+                <div style="display: flex; justify-content: space-between; border-top-left-radius: 10px;
+                border-top-right-radius: 10px">
+                    <input type="text" name="originalUrl" required placeholder="URL" style="">
+                    <input type="text" name="workspaceId" placeholder="Dein Workspace-Token" style="">
+                </div>
+                <div>
+                    <button type="submit">Generieren</button>
+                    <div  id="abcd">
+                        <p style="margin: 0;">Short-Url: </p>
+                        <p style="margin: 0;" th:text="${shortUrl}"></p>
+                    </div>
+                </div>
+                <div style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 40px"> <!--Meldungen Container -->
+                    <p th:if="${urlSuccess}" th:text="${urlSuccess}" style="color: #09cb09; margin: 0"></p>
+                    <p th:unless="${urlSuccess}" th:text="${urlFailure}" style="color: #ff0000; margin: 0"></p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>
