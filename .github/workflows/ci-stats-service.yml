@@ -1,0 +1,32 @@
+name: Stats-Service CI
+
+# 1. Wann soll der Roboter loslegen?
+on:
+  push:
+    branches: [ "main", "master" ] # Jedes Mal, wenn du Code in den main-Branch hochlädst
+  pull_request:
+    branches: [ "main", "master" ]
+
+# 2. Was soll er tun?
+jobs:
+  build:
+    runs-on: ubuntu-latest # Er mietet sich für ein paar Sekunden einen frischen Linux-Server bei GitHub
+
+    steps:
+      # Schritt A: Er lädt deinen Code herunter
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      # Schritt B: Er installiert exakt deine Java-Version (Temurin 17, wie in deinem Dockerfile)
+      - name: Java 17 einrichten
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven # Macht zukünftige Builds viel schneller!
+
+      # Schritt C: Er geht in den Ordner und baut die .jar Datei
+      - name: Maven Build ausführen (inklusive Tests)
+        run: |
+          cd stats-service
+          mvn clean package
