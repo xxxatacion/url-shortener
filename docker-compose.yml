@@ -109,9 +109,7 @@ services:
       - SERVER_PORT=8083
       - SPRING_PROFILES_ACTIVE=prod
 
-      # Frontend/Thymeleaf Link (Der User-Browser muss localhost aufrufen):
-      - SHORTENER_API_URL=http://localhost:8080/api/shortLinks/
-      # Backend-Kommunikation (RestTemplate nutzt Container-Namen):
+      - SHORTENER_API_URL=${SHORTENER_PUBLIC_URL}
       - SHORTENER_INTERNAL_URL=http://shortener-service:8080/api/shortLinks
       - WORKSPACE_API_URL=http://workspace-service:8081/api/tokens
       - STATS_API_URL=http://stats-service:8082/api/stats
