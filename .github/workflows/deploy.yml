@@ -28,7 +28,7 @@ jobs:
             cd client && mvn clean package -DskipTests
             cd ..
             cd shortener-service && mvn clean package -DskipTests
-            cd..
+            cd ..
             cd workspace-service && mvn clean package -DskipTests
             cd ..
             cd stats-service && mvn clean package -DskipTests
