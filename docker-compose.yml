@@ -1,9 +1,7 @@
 version: '3.8'
 
 services:
-  # ==========================================
-  # DATENBANKEN (3 komplett getrennte Container)
-  # ==========================================
+#TEST
   mysql-workspace:
     image: mysql:8.0
     container_name: mysql-workspace
