@@ -1,0 +1,37 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Google Cloud Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+            export PATH=$JAVA_HOME/bin:$PATH
+            
+            cd ~/url-shortener
+            
+            git pull
+            
+            cd client && mvn clean package -DskipTests
+            cd ..
+            cd shortener-service && mvn clean package -DskipTests
+            cd..
+            cd workspace-service && mvn clean package -DskipTests
+            cd ..
+            cd stats-service && mvn clean package -DskipTests
+            cd ..
+            
+            docker compose up -d --build

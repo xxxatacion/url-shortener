@@ -52,7 +52,7 @@ services:
     environment:
       - SERVER_PORT=8081 # Zwingt Spring Boot auf diesen Port!
       - SPRING_PROFILES_ACTIVE=prod
-      - DB_URL=jdbc:mysql://mysql-workspace:3306/workspace_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      - "DB_URL=jdbc:mysql://mysql-workspace:3306/workspace_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
       - DB_USER=root
       - DB_PASS=root
     depends_on:
@@ -69,7 +69,7 @@ services:
     environment:
       - SERVER_PORT=8082
       - SPRING_PROFILES_ACTIVE=prod
-      - DB_URL=jdbc:mysql://mysql-stats:3306/stats_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      - "DB_URL=jdbc:mysql://mysql-stats:3306/stats_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
       - DB_USER=root
       - DB_PASS=root
     depends_on:
@@ -86,7 +86,7 @@ services:
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=prod
-      - DB_URL=jdbc:mysql://mysql-shortener:3306/shortener_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      - "DB_URL=jdbc:mysql://mysql-shortener:3306/shortener_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
       - DB_USER=root
       - DB_PASS=root
       # Interne Kommunikation über Container-Namen:
@@ -104,7 +104,7 @@ services:
     container_name: client-service
     restart: always
     ports:
-      - "8083:8083"
+      - "80:8083"
     environment:
       - SERVER_PORT=8083
       - SPRING_PROFILES_ACTIVE=prod

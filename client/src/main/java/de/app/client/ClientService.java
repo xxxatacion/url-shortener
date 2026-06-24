@@ -21,7 +21,6 @@ public class ClientService {
     @Value("${app.workspace.get-token-url}")
     private String workspaceApi;
 
-    // HIER WAR DER FEHLER: Das muss auf internal-url geändert werden!
     @Value("${app.shortener.internal-url}")
     private String shortenerApi;
 
@@ -67,9 +66,7 @@ public class ClientService {
             return shortUrl;
 
         } catch (HttpClientErrorException e) {
-            // NEU: Das fängt HTTP-Fehler vom Backend ab (z.B. 400 Bad Request)
             log.warn("Backend meldet Validierungsfehler: {}", e.getStatusCode());
-            // Wir werfen eine IllegalArgumentException weiter, damit der Controller weiß: Aha, User-Eingabe war falsch!
             throw new IllegalArgumentException("Die angegebene Workspace-ID existiert nicht!");
 
         } catch (RestClientException e) {
