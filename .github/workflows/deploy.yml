@@ -34,4 +34,4 @@ jobs:
             cd stats-service && mvn clean package -DskipTests
             cd ..
             
-            docker compose up -d --build
+            docker-compose up -d --build
