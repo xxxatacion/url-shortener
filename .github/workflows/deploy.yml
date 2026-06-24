@@ -22,7 +22,8 @@ jobs:
             export PATH=$JAVA_HOME/bin:$PATH
             
             cd url-shortener
-            git pull
+            git fetch --all
+            git reset --hard origin/main
             
             cd client && mvn clean package -DskipTests
             cd ..
