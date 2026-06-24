@@ -22,6 +22,7 @@ jobs:
             export PATH=$JAVA_HOME/bin:$PATH
             
             cd url-shortener
+            git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
             git fetch --all
             git reset --hard origin/main
             
