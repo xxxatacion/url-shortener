@@ -34,4 +34,7 @@ jobs:
             cd stats-service && mvn clean package -DskipTests
             cd ..
             
+            sudo apt-get update -y
+            sudo apt-get install docker-compose-plugin -y
+            
             docker compose up -d --build
