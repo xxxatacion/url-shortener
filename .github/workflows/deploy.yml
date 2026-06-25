@@ -34,7 +34,7 @@ jobs:
             cd stats-service && mvn clean package -DskipTests
             cd ..
             
-
+            echo "SHORTENER_PUBLIC_URL=${{ secrets.SHORTENER_PUBLIC_URL }}" > .env
             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
             
             docker-compose down

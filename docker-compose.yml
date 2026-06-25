@@ -106,7 +106,6 @@ services:
     environment:
       - SERVER_PORT=8083
       - SPRING_PROFILES_ACTIVE=prod
-
       - SHORTENER_API_URL=${SHORTENER_PUBLIC_URL}
       - SHORTENER_INTERNAL_URL=http://shortener-service:8080/api/shortLinks
       - WORKSPACE_API_URL=http://workspace-service:8081/api/tokens
