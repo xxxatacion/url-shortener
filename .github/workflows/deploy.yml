@@ -34,6 +34,9 @@ jobs:
             cd stats-service && mvn clean package -DskipTests
             cd ..
             
+            echo "SHORTENER_PUBLIC_URL=http://localhost:8080/api/shortLinks/" > .env
+            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+            
             docker-compose down
             
             

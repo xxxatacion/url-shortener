@@ -7,7 +7,7 @@ services:
     container_name: mysql-workspace
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: workspace_db
     ports:
       - "127.0.0.1:33061:3306"
@@ -19,7 +19,7 @@ services:
     container_name: mysql-shortener
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: shortener_db
     ports:
       - "127.0.0.1:33062:3306"
@@ -31,7 +31,7 @@ services:
     container_name: mysql-stats
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: stats_db
     ports:
       - "127.0.0.1:33063:3306"
