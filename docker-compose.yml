@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-#TEST
   mysql-workspace:
     image: mysql:8.0
     container_name: mysql-workspace
@@ -13,6 +12,8 @@ services:
       - "127.0.0.1:33061:3306"
     networks:
       - shortener-net
+    volumes:
+      - workspace_data:/var/lib/mysql
 
   mysql-shortener:
     image: mysql:8.0
@@ -25,6 +26,8 @@ services:
       - "127.0.0.1:33062:3306"
     networks:
       - shortener-net
+    volumes:
+      - shortener_data:/var/lib/mysql
 
   mysql-stats:
     image: mysql:8.0
@@ -37,6 +40,8 @@ services:
       - "127.0.0.1:33063:3306"
     networks:
       - shortener-net
+    volumes:
+      - stats_data:/var/lib/mysql
 
   # ==========================================
   # MICROSERVICES
@@ -48,11 +53,11 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - SERVER_PORT=8081 # Zwingt Spring Boot auf diesen Port!
+      - SERVER_PORT=8081
       - SPRING_PROFILES_ACTIVE=prod
       - "DB_URL=jdbc:mysql://mysql-workspace:3306/workspace_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
       - DB_USER=root
-      - DB_PASS=root
+      - DB_PASS=${MYSQL_ROOT_PASSWORD}
     depends_on:
       - mysql-workspace
     networks:
@@ -69,7 +74,7 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
       - "DB_URL=jdbc:mysql://mysql-stats:3306/stats_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
       - DB_USER=root
-      - DB_PASS=root
+      - DB_PASS=${MYSQL_ROOT_PASSWORD}
     depends_on:
       - mysql-stats
     networks:
@@ -86,7 +91,7 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
       - "DB_URL=jdbc:mysql://mysql-shortener:3306/shortener_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
       - DB_USER=root
-      - DB_PASS=root
+      - DB_PASS=${MYSQL_ROOT_PASSWORD}
       # Interne Kommunikation über Container-Namen:
       - WORKSPACE_API_URL=http://workspace-service:8081/api/tokens/
       - STATS_API_URL=http://stats-service:8082/api/stats/
@@ -114,6 +119,10 @@ services:
       - shortener-service
     networks:
       - shortener-net
+volumes:
+  shortener_data:
+  workspace_data:
+  stats_data:
 
 # ==========================================
 # NETZWERK DEFINITION
