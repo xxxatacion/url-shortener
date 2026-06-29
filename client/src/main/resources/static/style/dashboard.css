@@ -1,0 +1,107 @@
+#startseite_button {
+    border-radius: 24px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid rgba(144, 171, 238, 0.32);
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    transition: color, background-color 0.3s;
+}
+
+#startseite_button:hover {
+    color: white;
+    background-color: rgba(144, 171, 238, 0.89);
+}
+
+main {
+    height: calc(100vh - 100px);
+    padding: 0 40px 40px 40px;
+    box-sizing: border-box;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    height: 100%;
+    width: 100%;
+}
+
+#listen-container {
+    width: 450px;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-right: 10px;
+}
+
+.link-container {
+    border: 1px solid rgba(144, 171, 238, 0.32);
+    background-color: rgba(77, 115, 252, 0.05);
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: background-color 0.3s;
+}
+
+.link-container:hover {
+    background-color: rgba(144, 171, 238, 0.2);
+}
+
+.row-top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.row-bottom {
+    font-size: 13px;
+    color: #7A7F85;
+    word-break: break-all;
+}
+
+/*Diagramm*/
+#diagramm-bereich {
+    flex-grow: 1;
+    border: 1px solid rgba(144, 171, 238, 0.32);
+    background-color: rgba(77, 115, 252, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#zeitraum-btn {
+    border-radius: 24px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid rgba(144, 171, 238, 0.32);
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    transition: color, background-color 0.3s;
+    margin-bottom: 30px;
+}
+
+#zeitraum-btn:hover {
+    background-color: rgba(144, 171, 238, 0.89);
+}
+
+#listen-container::-webkit-scrollbar {
+    width: 8px;
+}
+#listen-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+#listen-container::-webkit-scrollbar-thumb {
+    background: rgba(144, 171, 238, 0.32);
+    border-radius: 10px;
+}

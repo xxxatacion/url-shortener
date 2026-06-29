@@ -4,57 +4,58 @@
     <meta charset="UTF-8">
     <title>Dashboard</title>
 
+    <link rel="stylesheet" href="../static/style/general.css">
+    <link rel="stylesheet" href="../static/style/dashboard.css">
+
+    <link rel="stylesheet" th:href="@{/style/general.css}">
+    <link rel="stylesheet" th:href="@{/style/dashboard.css}">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <style>
-        /*
-        TODO: Sind nur Listenelemente; selbst anpassen!
-         */
-        .link-container { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; cursor: pointer; border-radius: 5px; }
-        .link-container:hover { background-color: #f9f9f9; }
-        .row-top { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; }
-        .row-bottom { font-size: 0.9em; color: gray; }
-    </style>
 </head>
 <body>
-<header>
+<header style="padding: 20px;">
     <form th:action="@{/}" method="get">
-        <button type="submit">Startseite</button>
+        <button id="startseite_button" type="submit">Startseite</button>
     </form>
-</header>
+    <div>
+        <p style="font-size: 24px; margin: 0; font-weight: bold;">Dashboard</p>
+    </div>
+    <div style="width: 100px;"></div> </header>
 
 <main>
-    <h3>Dashboard</h3>
+    <div class="dashboard-content">
 
-    <div id="listen-container">
+        <div id="listen-container">
+            <div class="link-container"
+                 th:each="item : ${Dashboard.statsShortUrls}"
+                 th:onclick="selectedListObject([[${item}]])">
 
-        <div class="link-container"
-             th:each="item : ${Dashboard.statsShortUrls}"
-             th:onclick="selectedListObject([[${item}]])">
+                <div class="row-top">
+                    <div>Short-URL: <span style="color: #90abee;" th:text="${baseUrl} + ${item.shortLinkDTO.shortUrl}"></span></div>
+                    <div>Klicks: <span th:text="${#lists.size(item.statsDTOS)}"></span></div>
+                </div>
 
-            <div class="row-top">
-                <div>Short-URL: <span th:text="${baseUrl} + ${item.shortLinkDTO.shortUrl}"></span></div>
-
-                <div>Gesamtaufrufe: <span th:text="${#lists.size(item.statsDTOS)}"></span></div>
-            </div>
-
-            <div class="row-bottom">
-                Original-URL: <span th:text="${item.shortLinkDTO.originalUrl}"></span>
+                <div class="row-bottom">
+                    Original: <span th:text="${item.shortLinkDTO.originalUrl}"></span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <hr>
+        <div id="diagramm-bereich" style="display: none;">
+            <h4 id="diagramm-titel" style="margin-top: 0; font-size: 20px;">Statistik</h4>
 
-    <div id="diagramm-bereich" style="display: none; max-width: 800px;">
-        <h4 id="diagramm-titel">Statistik</h4>
+            <button id="zeitraum-btn" onclick="toggleZeitraum()">Zeige letzte 30 Tage</button>
 
-        <button id="zeitraum-btn" onclick="toggleZeitraum()">Zeige letzte 30 Tage</button>
+            <div style="width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center;">
+                <canvas id="klickDiagramm"></canvas>
+            </div>
+        </div>
 
-        <canvas id="klickDiagramm"></canvas>
     </div>
 </main>
 
 <script>
+    Chart.defaults.color = '#fff';
 
     let currentListObject = null;
     let currentPeriod = 7;
@@ -64,7 +65,7 @@
         currentListObject = itemDaten;
         currentPeriod = 7;
 
-        document.getElementById('diagramm-bereich').style.display = 'block';
+        document.getElementById('diagramm-bereich').style.display = 'flex'; // Wichtig: auf flex ändern, nicht block
         document.getElementById('diagramm-titel').innerText = "Klicks für: " + itemDaten.shortLinkDTO.shortUrl;
         document.getElementById('zeitraum-btn').innerText = "Zeige letzte 30 Tage";
 
@@ -86,7 +87,6 @@
         if (!currentListObject) return;
 
         const stats = currentListObject.statsDTOS;
-
 
         const dataAfterDay = {};
         for (let i = currentPeriod - 1; i >= 0; i--) {
@@ -116,7 +116,6 @@
             diagram.destroy();
         }
 
-        // 4. Diagramm zeichnen!
         const ctx = document.getElementById('klickDiagramm').getContext('2d');
         diagram = new Chart(ctx, {
             type: 'line',
@@ -125,17 +124,22 @@
                 datasets: [{
                     label: 'Klicks',
                     data: daten,
-                    borderColor: 'blue',
-                    backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                    borderColor: 'rgba(144, 171, 238, 1)',
+                    backgroundColor: 'rgba(144, 171, 238, 0.2)',
                     tension: 0.3,
                     fill: true
                 }]
             },
             options: {
+                responsive: true,
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1 }
+                        ticks: { stepSize: 1 },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
                     }
                 }
             }

@@ -6,13 +6,61 @@ body{
 
 header div > p{
     margin: 0;
-    font-size: 14px;
-    font-weight: bolder;
+    font-size: 13px;
 }
 
 header div > div{
     height: 20px;
 }
+
+#dashboard_token_input{
+    border-radius: 24px;
+    height: 22px;
+    width: 50vh;
+    background-color: transparent;
+    border: 1px solid rgba(144, 171, 238, 0.32);
+    color: white;
+    outline: none;
+}
+
+#dashboard_token_button{
+    border-radius: 24px;
+    height: 26px;
+    background-color: transparent;
+    border: 1px solid rgba(144, 171, 238, 0.32);
+    color: white;
+    padding-left: 13px;
+    padding-right: 13px;
+    cursor: pointer;
+    transition: color, background-color 0.3s;
+
+}
+
+#dashboard_token_button:hover{
+    color: white;
+    background-color: rgba(144, 171, 238, 0.89);
+}
+
+#workspace_token_generieren_button{
+    border-radius: 24px;
+    height: 26px;
+    background-color: transparent;
+    border: 1px solid rgba(144, 171, 238, 0.32);
+    color: white;
+    padding-left: 13px;
+    padding-right: 13px;
+    cursor: pointer;
+    transition: color, background-color 0.3s;
+}
+
+
+#workspace_token_generieren_button:hover{
+    color: white;
+    background-color: rgba(144, 171, 238, 0.89);
+}
+
+
+
 
 
 main{
@@ -37,31 +85,76 @@ main > div > div{
     justify-items: center;
 }
 
+
+
+
+
+
+
 main > div > div > form{
     width: 120vh;
-    height: 40vh;
+    height: 35vh;
     background-color: white;
     padding: 10px;
     border-radius: 20px;
-
 }
 
-main > div > div > form > p{
-    color: #1e1c1c;
+#d1{
+    width: 90vh;
+    justify-self: center;
 }
 
-main > div > div > form > div{
-    background-color:rgba(77, 115, 252, 0.1);
-    <!--border-radius: 10px;-->
+#url_token_field{
+    background-color: rgba(77, 115, 252, 0.1);
+    padding: 20px;
+    border-radius: 10px;
 }
 
-main > div > div > form > div > input{
-    width: 50%;
-    height: 25px;
-    border-radius: 25px;
+#url_input{
+    border-radius: 24px;
+    border: 1px;
+    width: 50vh;
+    height: 4vh;
+    display: flex;
+    justify-self: center;
+}
+
+#token_input{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 50vh;
+}
+
+
+#d2{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50px;
+}
+
+#d2 > button{
+    border-radius: 24px;
     border: 1px solid #e5e5e7;
     background-color: white;
+    width: 180px;
+    height: 40px;
+    cursor: pointer;
+    transition: color, background-color 0.3s;
+    font-size: 16px;
+
+
 }
+
+#d2 > button:hover{
+    color: white;
+    background-color: #90abee;
+}
+
+
 
 #abcd{
     color: #757575;

@@ -16,8 +16,8 @@
     <div>
         <p>Gehe zu Dashboard</p>
         <form th:action="@{/dashboard}" method="post">
-            <input type="text" name="token" required placeholder="Workspace-Token">
-            <button type="submit">Dashboard</button>
+            <input id="dashboard_token_input" type="text" name="token" required placeholder="Workspace-Token">
+            <button id="dashboard_token_button" type="submit">Go</button>
         </form>
         <div>
             <p th:if="${dashboardTokenError}" th:text="${dashboardTokenError}" style="color: #ff0000;"></p>
@@ -27,11 +27,11 @@
 
     <div>
         <p>Generiere Workspace-Token</p>
-        <form th:action="@{/getNewToken}" method="post">
+        <form  style="display: flex; flex-direction: row; align-items: center; gap: 15px;" th:action="@{/getNewToken}" method="post">
+            <button id="workspace_token_generieren_button" type="submit">Generieren</button>
             <div>
                 <p th:if="${newToken}" th:text="'Dein Token: ' + ${newToken}"></p>
             </div>
-            <button type="submit">Generieren</button>
         </form>
         <div>
             <p th:if="${generateTokenSuccess}" th:text="${generateTokenSuccess}" style="color: #09cb09;"></p>
@@ -40,7 +40,6 @@
     </div>
 
     <div>
-        Info
         <!-- TODO: Info button für WS-Token->TextContainer, sowie <p> tag.. -->
     </div>
 </header>
@@ -52,25 +51,32 @@
             <h1 style="font-size: 40px; margin-bottom: 40px; margin-top: 10px">Generiere Deine Short-URL</h1>
 
             <form th:action="@{/generateLink}" method="post">
-                <p style="margin-bottom: 0">Originale URL eingeben</p>
-                <div style="display: flex; justify-content: space-between; border-top-left-radius: 10px;
-                border-top-right-radius: 10px">
-                    <input type="text" name="originalUrl" required placeholder="URL" style="">
-                    <input type="text" name="workspaceId" placeholder="Dein Workspace-Token" style="">
-                </div>
-                <div>
-                    <button type="submit">Generieren</button>
-                    <div  id="abcd">
-                        <p style="margin: 0;">Short-Url: </p>
-                        <p style="margin: 0;" th:text="${shortUrl}"></p>
-                    </div>
-                </div>
-                <div style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 40px"> <!--Meldungen Container -->
-                    <p th:if="${urlSuccess}" th:text="${urlSuccess}" style="color: #09cb09; margin: 0"></p>
-                    <p th:unless="${urlSuccess}" th:text="${urlFailure}" style="color: #ff0000; margin: 0"></p>
-                </div>
+                <div id="d1">
+                    <p style="color: black; font-weight: bolder; margin-bottom: 5px; justify-self: center">Originale URL eingeben</p>
 
+                    <div id="url_token_field">
+                        <input id="url_input" type="text" name="originalUrl" required placeholder="URL">
+                        <p style="color: #7A7F85; font-size: 13px; margin-bottom: 1px">token?</p>
+                         <input id="token_input" type="text" name="workspaceId" placeholder="Eingabe (optional)">
+
+                    </div>
+                    <div id="d2">
+                        <button type="submit">Generieren</button>
+                        <div style="width: 250px;">
+                            <p style="margin: 0; color:  #7A7F85; font-size: 13px">Short-Url: </p>
+                            <p style="margin: 0 ;color: black; font-size: 16px" th:text="${shortUrl}"></p>
+                        </div>
+                    </div>
+
+
+                    <div style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 40px"> <!--Meldungen Container -->
+                        <p th:if="${urlSuccess}" th:text="${urlSuccess}" style="color: #09cb09; margin: 0"></p>
+                        <p th:unless="${urlSuccess}" th:text="${urlFailure}" style="color: #ff0000; margin: 0"></p>
+                    </div>
+
+                </div>
             </form>
+
         </div>
     </div>
 </main>
