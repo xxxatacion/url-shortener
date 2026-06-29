@@ -57,9 +57,9 @@ Gebe eine gültige URL im URL-Feld ein.
 Klicke nun auf Generieren, du erhälst deinen gekürzten Link (Short-Url), der dich auf die angegebene Seite weiterleitet.  
    ![](docs/shortLinkGenerieren.png)
 3. **Dashboard** *(bei Nutzung mit Workspace-Token)*  
-Um zum Dashboard zu gelangen gebe im entsprechenden Feld dein Workspace-Token ein.  
+Um zum Dashboard zu gelangen, gebe im entsprechenden Feld dein Workspace-Token ein.  
    ![](docs/workspaceTokenFeld.png)  
-Klicke auf Dashboard, nun findest du die Statistiken zu deinen generierten Links, die mit deinem Workspace verknüpft sind.  
+Klicke auf Go, nun findest du die Statistiken zu deinen generierten Links, die mit deinem Workspace verknüpft sind.  
    ![](docs/dashboard.png)
 
 
