@@ -1,3 +1,5 @@
+
+
 #startseite_button {
     border-radius: 24px;
     height: 30px;
@@ -7,6 +9,7 @@
     padding-left: 20px;
     padding-right: 20px;
     cursor: pointer;
+    -webkit-transition: color, background-color 0.3s;
     transition: color, background-color 0.3s;
 }
 
@@ -18,11 +21,17 @@
 main {
     height: calc(100vh - 100px);
     padding: 0 40px 40px 40px;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
 .dashboard-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
     flex-direction: row;
     gap: 30px;
     height: 100%;
@@ -33,7 +42,12 @@ main {
     width: 450px;
     height: 100%;
     overflow-y: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     gap: 15px;
     padding-right: 10px;
@@ -45,6 +59,7 @@ main {
     padding: 20px;
     cursor: pointer;
     border-radius: 15px;
+    -webkit-transition: background-color 0.3s;
     transition: background-color 0.3s;
 }
 
@@ -53,7 +68,11 @@ main {
 }
 
 .row-top {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     font-weight: bold;
     margin-bottom: 8px;
@@ -68,13 +87,22 @@ main {
 
 /*Diagramm*/
 #diagramm-bereich {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
     flex-grow: 1;
     border: 1px solid rgba(144, 171, 238, 0.32);
     background-color: rgba(77, 115, 252, 0.05);
     border-radius: 20px;
     padding: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
@@ -87,6 +115,7 @@ main {
     padding-left: 20px;
     padding-right: 20px;
     cursor: pointer;
+    -webkit-transition: color, background-color 0.3s;
     transition: color, background-color 0.3s;
     margin-bottom: 30px;
 }
