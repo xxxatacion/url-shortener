@@ -62,5 +62,3 @@ Um zum Dashboard zu gelangen, gebe im entsprechenden Feld dein Workspace-Token e
 Klicke auf Go, nun findest du die Statistiken zu deinen generierten Links, die mit deinem Workspace verknüpft sind.  
    ![](docs/dashboard.png)
 
-
-
